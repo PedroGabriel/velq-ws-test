@@ -1,0 +1,29 @@
+{
+  "app": "guestbook",
+  "env": "prod",
+  "compatibility_date": "2026-06-08",
+  "routes": ["guestbook.velq.dev"],
+  "build": {
+    "rootfs_from": "laravel",
+    "php": "8.4",
+    "command": "composer install --no-dev -o"
+  },
+  "bindings": {
+    "database": { "binding": "DB" },
+    "kv": { "binding": "KV", "scope": "guestbook-prod" },
+    "files": { "binding": "BUCKET", "scope": "guestbook-prod" }
+  },
+  "vars": {
+    "APP_ENV": "production",
+    "APP_DEBUG": "false",
+    "BROADCAST_CONNECTION": "pusher",
+    "MAIL_MAILER": "smtp",
+    "QUEUE_CONNECTION": "database",
+    "CACHE_STORE": "velqkv",
+    "SESSION_DRIVER": "database",
+    "LOG_CHANNEL": "stderr"
+  },
+  "secrets": ["APP_KEY"],
+  "migrate": { "on_deploy": true, "strategy": "expand-contract" },
+  "resources": { "mem_mb": 320, "workers": 1, "keep_warm": false }
+}
